@@ -21,8 +21,8 @@ function wpew_error_filter ( $errors )
  *
  * @todo Possibly give the user the ability to change the logic of how this works
  */
-add_filter ('add_to_cart_redirect', 'uw_redirect_to_checkout');
-function uw_redirect_to_checkout () 
+add_filter ('woocommerce_add_to_cart_redirect', 'uw_redirect_to_checkout');
+function uw_redirect_to_checkout ()
 {
 	if(isset($_POST['uw_add_product']))
 	{
@@ -30,10 +30,9 @@ function uw_redirect_to_checkout ()
 		if( has_term( 'credit', 'product_cat', $product_id ) )
 		{
 			global $woocommerce;
-			$woocommerce->clear_messages();
+			wc_clear_notices();
 			return $woocommerce->cart->get_checkout_url();
 		}
-
 	}
 }
 

@@ -37,10 +37,10 @@ class WPUW
 		}
 		spl_autoload_register( array( $this, 'autoload' ) );
 
-		add_action('wp_loaded', array(__CLASS__, 'register_scripts'));
-		add_action('wp_loaded', array(__CLASS__, 'register_styles'));
+		add_action('wp_loaded', array($this, 'register_scripts'));
+		add_action('wp_loaded', array($this, 'register_styles'));
 		add_action('init', array(__CLASS__, 'includes'));
-		add_action('init', array(__CLASS__, 'register_terms'));
+		add_action('init', array($this, 'register_terms'));
 		add_action( 'admin_notices', array($this, 'admin_notice') );
 
 		/** activation hook for the server */
