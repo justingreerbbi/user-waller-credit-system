@@ -25,7 +25,7 @@ class WPVW_Admin_Options {
 
 	/** add the plugin option page to the admin menu */
 	public function add_page() {
-	    add_submenu_page('woocommerce', 'Virtual Wallet Options', 'Virtual Wallet', 'manage_options', 'wpvw_settings', array($this, 'options_do_page'));
+	    add_submenu_page('woocommerce', 'Virtual Wallet Options', 'Virtual Wallet', 'manage_woocommerce', 'wpvw_settings', array($this, 'options_do_page'));
 	}
 
 	/** load dependant scripts and styles */
