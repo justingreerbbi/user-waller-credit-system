@@ -3,12 +3,12 @@ Contributors: justingreerbbi
 Donate link: http://justin-greer.com/#donate
 Tags: woocommerce, wallet, woocommerce credits, user wallet
 Requires at least: 4.0
-Tested up to: 4.1
-Stable tag: 1.2
+Tested up to: 4.6
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Gives users the ability to load their virtual wallet balance using WooCommerce checkout.
+Gives users the ability to load a virtual wallet balance using WooCommerce checkout.
 
 == Description ==
 
@@ -92,3 +92,7 @@ No. Use Wallet can not be used with any other payment method at the same time du
 
 = 1.2 =
 * Fixed issue where all orders go into "Complete" status, even if the product was not a currency package or virtual wallet was used as a payment method.
+
+= 1.3 =
+* Tested with latest version of WC and WP.
+* Fixed undefined error if debug was set to true in wp-config.php

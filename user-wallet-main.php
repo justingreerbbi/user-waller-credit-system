@@ -22,15 +22,17 @@ class WPUW
 	{
 
 		/** check for WooCommerce and trigger notice if needed */
-		if (! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) 
-		{
+		if (! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ){
 			$this->notices[] = 'WooCommerce needs to be installed and activated to use "User Wallet"';
 		}
 
-		if (! defined( 'WPUW_ABSPATH' ) )
+		if ( !defined( 'WPUW_ABSPATH' ) ){
 			define('WPUW_ABSPATH', dirname( __FILE__ ) );
-		if (! defined( 'WPUW_URI' ) )
+		}
+
+		if ( !defined( 'WPUW_URI' ) ){
 				define( 'WPUW_URI', plugins_url('/', __FILE__) );
+		}
 
 		if ( function_exists( '__autoload' ) ) {
 			spl_autoload_register( '__autoload' );
@@ -39,8 +41,8 @@ class WPUW
 
 		add_action('wp_loaded', array($this, 'register_scripts'));
 		add_action('wp_loaded', array($this, 'register_styles'));
-		add_action('init', array(__CLASS__, 'includes'));
-		add_action('init', array($this, 'register_terms'));
+		add_action('init', array( __CLASS__, 'includes'));
+		add_action('init', array( $this, 'register_terms'));
 		add_action( 'admin_notices', array($this, 'admin_notice') );
 
 		/** activation hook for the server */
@@ -50,8 +52,7 @@ class WPUW
 	/**
 	 * Load the instance of the plugin
 	 */
-	public static function instance ()
-	{
+	public static function instance (){
 		if ( is_null( self::$_instance ) ) 
 			self::$_instance = new self();
 
@@ -63,20 +64,17 @@ class WPUW
 	 * All WPUW classes are located in library directory.
 	 * @return [type] [description]
 	 */
-	public function autoload ($class)
-	{
+	public function autoload($class){
 		$path  = null;
 		$class = strtolower( $class );
 		$file = 'class-' . str_replace( '_', '-', $class ) . '.php';
 
-		if( strpos( $class, "UW_") === 0 )
-		{
+		if( strpos( $class, "UW_") === 0 ){
 			$path = dirname( __FILE__ ) . '/library/' . trailingslashit(substr(str_replace( '_', '-', $class ), 18));
 		}
 
-		if ( $path && is_readable( $path . $file ) ) 
-		{
-			include_once( $path . $file );
+		if ( $path && is_readable( $path . $file ) ){
+			require_once( $path . $file );
 			return;
 		}
 	}
@@ -85,36 +83,33 @@ class WPUW
 	 * Plugin Includes
 	 * @return void
 	 */
-	public static function includes ()
-	{
+	public static function includes (){
 		require_once( dirname(__FILE__) . '/includes/gateway.php');
 		require_once( dirname(__FILE__) . '/includes/functions.php');
 		require_once( dirname(__FILE__) . '/includes/filters.php');
 		require_once( dirname(__FILE__) . '/includes/shortcodes.php');
 		
 		/** include the ajax class if DOING_AJAX is defined */
-		if ( defined( 'DOING_AJAX' ) )
+		if ( defined( 'DOING_AJAX' ) ){
 			require_once( dirname(__FILE__) . '/includes/ajax.php');
+		}
 
 		/** admin options page */
 		require_once( dirname(__FILE__) . '/admin/admin-options.php');
 	}
 
 	/** register dependant styles */
-	public function register_styles ()
-	{
+	public function register_styles (){
 		wp_register_style('wpvw_admin', plugins_url( '/assets/css/admin.css', __FILE__ )  );
 	}
 
 	/** register dependant scripts */
-	public function register_scripts ()
-	{
+	public function register_scripts (){
 		wp_register_script('wpvw_admin', plugins_url( '/assets/js/admin.js', __FILE__ ) );
 	}
 
 	/** register terms needed for plugin */
-	public function register_terms ()
-	{
+	public function register_terms (){
 		wp_insert_term(
 		  'Credit',
 		  'product_cat',
@@ -129,11 +124,11 @@ class WPUW
 	 * [setup description]
 	 * @return void
 	 */
-	public function setup ()
-	{
+	public function setup (){
 		$options = get_option("vw_options");
-		if(! isset($options["enabled"]) )
+		if(! isset($options["enabled"]) ){
 			update_option("vw_options", $this->defualt_settings);
+		}
 	}
 
 	/**
@@ -142,8 +137,7 @@ class WPUW
 	 * @return [type]          [description]
 	 * @todo Add text domain 
 	 */
-	public function admin_notice ( )
-	{
+	public function admin_notice ( ){
 		if (count($this->notices) > 0): foreach($this->notices as $message):
     ?>
     <div class="updated">
@@ -155,8 +149,8 @@ class WPUW
 
 
 }
-function _WPUW ()
-{
+
+function _WPUW (){
 	return WPUW::instance();
 }
 $GLOBAL['WPUW'] = _WPUW();
