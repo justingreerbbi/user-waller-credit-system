@@ -1,9 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; }
+<?php if ( !defined( 'ABSPATH' ) ) { exit; }
 
 class WPVW_Admin_Options {
 
 	/**
-	 * WO Options Name
+	 * Options Name
 	 * @var string
 	 */
 	protected $option_name = 'wpvw_options';
@@ -13,13 +13,13 @@ class WPVW_Admin_Options {
 	 * @return [type] [description]
 	 */
 	public static function init() {
-		add_action('admin_init', array(new self, 'admin_init'));
-		add_action('admin_menu', array(new self, 'add_page'));
+		add_action( 'admin_init', array( new self, 'admin_init' ) );
+		add_action( 'admin_menu', array( new self, 'add_page' ) );
 	}
 
 	/** register the dependant settings */
 	public function admin_init() {
-	    register_setting('wpvw_options', $this->option_name, array($this, 'validate'));
+	    register_setting('wpvw_options', $this->option_name, array( $this, 'validate' ) );
 	}
 
 	/** add the plugin option page to the admin menu */
@@ -68,6 +68,13 @@ class WPVW_Admin_Options {
 			                  	<a class="thickbox button button-primary" href="#TB_inline?width=600&height=550&inlineId=adjust-credits-single-user" title="Adjust User's Virtual Wallet Balance">Select a User</a> 
 			                	</td>
 			              	</tr>
+
+			              	<tr valign="top">
+			            		<th scope="row">Bulk Account Deposit:</th>
+			                	<td>
+			                  	<a class="thickbox button button-primary" href="#TB_inline?width=600&height=550&inlineId=bulk-credit-deposit" title="Make a Bulk Deposit to All User Wallets">Make a Bulk Deposit</a> 
+			                	</td>
+			              	</tr>
 			            </table>  
 							  </div>
  
@@ -103,7 +110,7 @@ class WPVW_Admin_Options {
 										<?php
 										$users = get_users();
 										foreach ( $users as $user ) {
-											echo '<option value="'.$user->ID.'">' . esc_html( $user->user_login ) . ' - ('.wc_price(get_user_meta($user->ID,'_uw_balance', true)).')</option>';
+											echo '<option value="'.$user->ID.'">' . esc_html( $user->user_login ) . ' - ('.wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ).')</option>';
 										}
 										?>
 									</select>
@@ -134,6 +141,39 @@ class WPVW_Admin_Options {
 								</p>
 
 								<?php submit_button("Update User's Virtual Wallet"); ?>
+							</form>
+						</div>
+
+					</div>
+
+			 <!-- BULK DEPOSIT -->
+	        <div id="bulk-credit-deposit" style="display:none;">
+						<div class="wo-popup-inner">
+							<h3 class="header">Bulk Credit Deposit</h3>
+							<p>Making a bulk deposit will <strong>ADD</strong> the deposit ammount to <strong>ALL
+							</strong> users. Ensure that this is correct before submitting becuase there is not turning back 
+							afterwards.</p>
+							<form id="bulk-credit-deposit-form" action="/" method="get">
+								<p>
+									<label>Select A User: </label>
+									<select id="onchange-get-balance" name="user">
+										<?php
+										$users = get_users();
+										foreach ( $users as $user ) {
+											echo '<option value="'.$user->ID.'">' . esc_html( $user->user_login ) . ' - ('.wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ).')</option>';
+										}
+										?>
+									</select>
+									<span class="selected-user-balance"></span>
+								</p>
+
+								<p>
+									<label>Credit Amount: </label>
+									<input type="text" name="credit_amount" placeholder="Enter Adjustment"/>
+								</p>
+
+								<small>Do not click the submit button more than once!</small>
+								<?php submit_button("Make the Deposit"); ?>
 							</form>
 						</div>
 

@@ -1,4 +1,4 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; }
+<?php if ( !defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * General Key Gen Function

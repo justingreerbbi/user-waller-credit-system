@@ -19,17 +19,38 @@
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
     jQuery.post(ajaxurl, data, function(response) {
       var res = jQuery.parseJSON( response );
-      if(res.status)
-      {
+      if(res.status){
         //alert(res.credit_amount);
         alert(res.message);
         $('#adjust-users-virtual-wallet').children('#submit').show();
         tb_remove();
-      }
-      else
-      {
+      }else{
         alert(res.message);
         $('#adjust-users-virtual-wallet').children('#submit').show();
+      }
+
+    });
+  });
+
+  $('#bulk-credit-deposit-form').submit(function(e){
+    $('#bulk-credit-deposit-form').children('#submit').hide();
+    e.preventDefault();
+    var formData = $(this).serialize();
+    var data = {
+      'action': 'wpvw_bulk_deposit',
+      'data': formData
+    };
+    // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+    jQuery.post(ajaxurl, data, function(response) {
+      var res = jQuery.parseJSON( response );
+      if(res.status){
+        //alert(res.credit_amount);
+        alert(res.message);
+        $('#bulk-credit-deposit-form').children('#submit').show();
+        tb_remove();
+      }else{
+        alert(res.message);
+        $('##bulk-credit-deposit-form').children('#submit').show();
       }
 
     });

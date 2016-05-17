@@ -83,6 +83,9 @@ No. Use Wallet can not be used with any other payment method at the same time du
 
 == Changelog ==
 
+= 1.4.0 =
+* Added current user can manage_woocommerce to AJAX requests
+
 = 1.3 =
 * Tested with latest version of WC and WP.
 * Fixed undefined error if debug was set to true in wp-config.php
