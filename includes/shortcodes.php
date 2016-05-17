@@ -85,7 +85,7 @@ function wpuw_list_products_shortcode ()
     while ( $loop->have_posts() ) : $loop->the_post(); global $product; ?>
         <tr>
             <td><?php the_title(); ?> </td>
-            <td><form id="add_to_cart_<?php echo get_the_ID();?>" method="post"><input type="hidden" name="add-to-cart" value="<?php echo get_the_ID(); ?>" /><input type="hidden" name="uw_add_product" value="1"/></form><button class="uw-make-deposit" onclick="javascript:document.getElementById('add_to_cart_<?php echo get_the_ID(); ?>').submit();">Make Deposit</button></td>
+            <td><form id="add_to_cart_<?php echo get_the_ID();?>" method="post"><input type="hidden" name="add-to-cart" value="<?php echo get_the_ID(); ?>" /><input type="hidden" name="wpuw_add_product" value="1"/></form><button class="uw-make-deposit" onclick="javascript:document.getElementById('add_to_cart_<?php echo get_the_ID(); ?>').submit();">Make Deposit</button></td>
         </tr>
 
     <?php endwhile; wp_reset_query(); 

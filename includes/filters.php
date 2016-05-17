@@ -1,8 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 
-add_filter("WPEW_Errors", "wpew_error_filter", 1);
-function wpew_error_filter ( $errors )
+add_filter("wpuw_Errors", "wpuw_error_filter", 1);
+function wpuw_error_filter ( $errors )
 {
 	$errors["system_error"] = "There was a system error";
 	return $errors;
@@ -21,14 +21,11 @@ function wpew_error_filter ( $errors )
  *
  * @todo Possibly give the user the ability to change the logic of how this works
  */
-add_filter ('woocommerce_add_to_cart_redirect', 'uw_redirect_to_checkout');
-function uw_redirect_to_checkout ()
-{
-	if(isset($_POST['uw_add_product']))
-	{
+add_filter ('woocommerce_add_to_cart_redirect', 'wpuw_redirect_to_checkout');
+function wpuw_redirect_to_checkout () {
+	if( isset($_POST['wpuw_add_product']) ){
 		$product_id = (int) apply_filters('woocommerce_add_to_cart_product_id', $_POST['add-to-cart']);
-		if( has_term( 'credit', 'product_cat', $product_id ) )
-		{
+		if( has_term( 'credit', 'product_cat', $product_id ) ){
 			global $woocommerce;
 			wc_clear_notices();
 			return $woocommerce->cart->get_checkout_url();
@@ -36,18 +33,15 @@ function uw_redirect_to_checkout ()
 	}
 }
 
-add_filter ('woocommerce_add_cart_item_data', 'uw_clear_cart_items');
-function uw_clear_cart_items ( $cart_item_data )
-{
+add_filter ('woocommerce_add_cart_item_data', 'wpuw_clear_cart_items');
+function wpuw_clear_cart_items ( $cart_item_data ){
 	global $woocommerce;
-	foreach ($woocommerce->cart->get_cart() as $cart_item_key => $cart_item)
-	{
-  	if( has_term('credit', 'product_cat', $cart_item['product_id']) )
-  	{
-  		global $woocommerce;
-  		$woocommerce->cart->set_quantity( $cart_item_key, 0 );
-    }
-  }
+	foreach ($woocommerce->cart->get_cart() as $cart_item_key => $cart_item){
+	  	if( has_term('credit', 'product_cat', $cart_item['product_id']) ){
+	  		global $woocommerce;
+	  		$woocommerce->cart->set_quantity( $cart_item_key, 0 );
+	    }
+  	}
   return $cart_item_data;
 }
 
