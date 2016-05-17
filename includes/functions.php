@@ -42,9 +42,8 @@ function woo_add_custom_general_fields()
  * @param  [type] $post_id [description]
  * @return [type]          [description]
  */
-function woo_add_custom_general_fields_save ( $post_id )
-{
-	$woocommerce_credits_amount = $_POST['_credits_amount'];
+function woo_add_custom_general_fields_save ( $post_id ){
+	$woocommerce_credits_amount = @$_POST['_credits_amount'];
 	if(!empty( $woocommerce_credits_amount ) )
 		update_post_meta( $post_id, '_credits_amount', esc_attr( $woocommerce_credits_amount ) );
 }
