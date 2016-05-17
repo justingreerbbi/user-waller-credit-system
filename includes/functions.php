@@ -10,14 +10,13 @@ function wpew_gen_key( $length=40 ){
 
 
 // Add custom product fields to woocommerce
-add_action( 'woocommerce_product_options_general_product_data', 'woo_add_custom_general_fields' );
-add_action( 'woocommerce_process_product_meta', 'woo_add_custom_general_fields_save' );
-function woo_add_custom_general_fields() 
-{
+add_action( 'woocommerce_product_options_general_product_data', 'wpew_add_custom_general_fields' );
+add_action( 'woocommerce_process_product_meta', 'wpew_add_custom_general_fields_save' );
+function wpew_add_custom_general_fields() {
 	global $woocommerce, $post;
 	$terms = wp_get_post_terms( $post->ID, 'product_cat' );
 	foreach ( $terms as $term ) $categories[] = $term->slug;
-	if(!empty($categories) && in_array('credit',$categories)) {
+	if( !empty( $categories ) && in_array( 'credit',$categories ) ) {
 		echo '<div class="options_group">';
 		woocommerce_wp_text_input(
 			array(
@@ -44,8 +43,9 @@ function woo_add_custom_general_fields()
  */
 function woo_add_custom_general_fields_save ( $post_id ){
 	$woocommerce_credits_amount = @$_POST['_credits_amount'];
-	if(!empty( $woocommerce_credits_amount ) )
+	if(!empty( $woocommerce_credits_amount ) ){
 		update_post_meta( $post_id, '_credits_amount', esc_attr( $woocommerce_credits_amount ) );
+	}
 }
 
 /**
