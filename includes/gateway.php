@@ -27,7 +27,7 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 		$this->id                 = 'wpuw';
 		$this->icon               = apply_filters( 'woocommerce_cod_icon', '' );
 		$this->method_title       = __( 'User Wallet', 'woocommerce' );
-		$this->method_description = __( 'Have your customers pay with thier virtal wallet balance.', 'woocommerce' );
+		$this->method_description = __( 'Have your customers pay with their user wallet balance.', 'woocommerce' );
 		$this->has_fields         = false;
 
 		/** load the settings */
