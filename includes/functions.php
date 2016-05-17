@@ -1,17 +1,11 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * General Key Gen Funciton
+ * General Key Gen Function
  * @return String Random Key
  */
-function wpew_gen_key($length=40)
-{
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $randomString = '';
-  for ($i = 0; $i < $length; $i++) {
-      $randomString .= $characters[rand(0, strlen($characters) - 1)];
-  }
-  return $randomString;
+function wpew_gen_key( $length=40 ){
+  return wp_generate_password( $length, false );
 }
 
 
