@@ -56,19 +56,16 @@ function wpuw_add_custom_general_fields_save ( $post_id ){
  * of credits after pruchase.
  */
 add_action( 'woocommerce_order_status_completed', 'wpuw_add_credits_to_user_account' );
-function wpuw_add_credits_to_user_account ( $order_id ) 
-{
+function wpuw_add_credits_to_user_account ( $order_id ){
 	$order = new WC_Order( $order_id );
-	if ( count( $order->get_items() ) > 0 ) 
-	{
-		foreach ( $order->get_items() as $item ) 
-		{
-    	$product_name = $item['name'];
-    	$product_id = $item['product_id'];
-    	$product_variation_id = $item['variation_id'];
-    	$credit_amount = floatval(get_post_meta($product_id, "_credits_amount", true));
-    	$current_users_wallet_ballance = floatval(get_user_meta(get_current_user_id(),"_uw_balance", true));
-    	update_user_meta(get_current_user_id(), "_uw_balance", ($credit_amount+$current_users_wallet_ballance));
+	if ( count( $order->get_items() ) > 0 ){
+		foreach ( $order->get_items() as $item ) {
+	    	$product_name = $item['name'];
+	    	$product_id = $item['product_id'];
+	    	$product_variation_id = $item['variation_id'];
+	    	$credit_amount = floatval(get_post_meta($product_id, "_credits_amount", true));
+	    	$current_users_wallet_ballance = floatval(get_user_meta(get_current_user_id(),"_uw_balance", true));
+	    	update_user_meta(get_current_user_id(), "_uw_balance", ($credit_amount+$current_users_wallet_ballance));
 		}
 	}
 }
@@ -79,7 +76,7 @@ function wpuw_add_credits_to_user_account ( $order_id )
  * @return [type]           [description]
  */
 add_action( 'woocommerce_thankyou', 'wpuw_custom_woocommerce_auto_complete_order' );
-function wpuw_custom_woocommerce_auto_complete_order( $order_id ) {
+function wpuw_custom_woocommerce_auto_complete_order( $order_id ){
 	if ( !$order_id ){
 	   return;
 	}
