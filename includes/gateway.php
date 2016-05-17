@@ -27,7 +27,7 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 		$this->id                 = 'wpuw';
 		$this->icon               = apply_filters( 'woocommerce_cod_icon', '' );
 		$this->method_title       = __( 'User Wallet', 'woocommerce' );
-		$this->method_description = __( 'Have your customers pay with thier virtal wallet balance.', 'woocommerce' );
+		$this->method_description = __( 'Have your customers pay with their user wallet balance.', 'woocommerce' );
 		$this->has_fields         = false;
 
 		/** load the settings */
@@ -52,7 +52,7 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
     /**
      * Initialise Gateway Settings Form Fields
      */
-  public function init_form_fields() {
+  public function init_form_fields(){
     $shipping_methods = array();
 
     if ( is_admin() )
@@ -64,8 +64,8 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 
     $this->form_fields = array(
 			'enabled' => array(
-				'title'       => __( 'Enable VW', 'woocommerce' ),
-				'label'       => __( 'Enable Virtual Wallet', 'woocommerce' ),
+				'title'       => __( 'Enable User Wallet', 'woocommerce' ),
+				'label'       => __( 'Enable User Wallet', 'woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => '',
 				'default'     => 'no'
@@ -74,21 +74,21 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 				'title'       => __( 'Title', 'woocommerce' ),
 				'type'        => 'text',
 				'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce' ),
-				'default'     => __( 'Virtual Wallet', 'woocommerce' ),
+				'default'     => __( 'User Wallet', 'woocommerce' ),
 				'desc_tip'    => true,
 			),
 			'description' => array(
 				'title'       => __( 'Description', 'woocommerce' ),
 				'type'        => 'textarea',
 				'description' => __( 'Payment method description that the customer will see on your website.', 'woocommerce' ),
-				'default'     => __( 'Pay using your Virtual Wallet.', 'woocommerce' ),
+				'default'     => __( 'Pay using your Wallet.', 'woocommerce' ),
 				'desc_tip'    => true,
 			),
 			'instructions' => array(
 				'title'       => __( 'Instructions', 'woocommerce' ),
 				'type'        => 'textarea',
 				'description' => __( 'Instructions that will be added to the thank you page.', 'woocommerce' ),
-				'default'     => __( 'Pay using your Virtual Wallet', 'woocommerce' ),
+				'default'     => __( 'Pay using your Wallet', 'woocommerce' ),
 				'desc_tip'    => true,
 			),
 			'enable_for_methods' => array(
@@ -97,7 +97,7 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 				'class'             => 'chosen_select',
 				'css'               => 'width: 450px;',
 				'default'           => '',
-				'description'       => __( 'If VW is only available for certain methods, set it up here. Leave blank to enable for all methods.', 'woocommerce' ),
+				'description'       => __( 'If User Wallet is only available for certain shipping methods, set it up here. Leave blank to enable for all methods.', 'woocommerce' ),
 				'options'           => $shipping_methods,
 				'desc_tip'          => true,
 				'custom_attributes' => array(
@@ -106,7 +106,7 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 			),
 			'enable_for_virtual' => array(
 				'title'             => __( 'Enable for virtual orders', 'woocommerce' ),
-				'label'             => __( 'Enable Virtual Wallet if the order is virtual', 'woocommerce' ),
+				'label'             => __( 'Enable User Wallet if the order is virtual', 'woocommerce' ),
 				'type'              => 'checkbox',
 				'default'           => 'yes'
 			)
@@ -117,8 +117,7 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 	 * [is_available description]
 	 * @return boolean [description]
 	 */
-	public function is_available() 
-	{
+	public function is_available() {
 		$order = null;
 		if ( ! $this->enable_for_virtual ) 
 		{

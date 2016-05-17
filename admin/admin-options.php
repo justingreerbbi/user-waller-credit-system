@@ -12,8 +12,7 @@ class WPVW_Admin_Options {
 	 * [_init description]
 	 * @return [type] [description]
 	 */
-	public static function init ()
-	{
+	public static function init() {
 		add_action('admin_init', array(new self, 'admin_init'));
 		add_action('admin_menu', array(new self, 'add_page'));
 	}
@@ -24,13 +23,12 @@ class WPVW_Admin_Options {
 	}
 
 	/** add the plugin option page to the admin menu */
-	public function add_page() {
-	    add_submenu_page('woocommerce', 'Virtual Wallet Options', 'Virtual Wallet', 'manage_woocommerce', 'wpvw_settings', array($this, 'options_do_page'));
+	public function add_page(){
+	    add_submenu_page('woocommerce', 'User Wallet Options', 'User Wallet', 'manage_woocommerce', 'wpvw_settings', array( $this, 'options_do_page'));
 	}
 
 	/** load dependant scripts and styles */
-	public function admin_head ()
-	{
+	public function admin_head(){
 		wp_enqueue_style( 'wpvw_admin' );
 		wp_enqueue_script( 'wpvw_admin' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
@@ -49,8 +47,8 @@ class WPVW_Admin_Options {
 	    			<!--<div class="updated">
 				        <p>This version of Virtual Wallet is licensed to EJ for use and modification but not distribution.</p>
 				    </div>-->
-	        	<h2>Virtual Wallet</h2>
-	        	<p>A Premium Woocommerce Extension</p>
+	        	<h2>User Wallet</h2>
+	        	<p>A Woocommerce Extension for allowing users to load and use virtual balance for products.</p>
 	       
 	        	<form method="post" action="options.php">
 	          	<?php settings_fields('wpvw_options'); ?>
