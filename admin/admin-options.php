@@ -138,7 +138,7 @@ class WPVW_Admin_Options {
 						</div>
                 
                         <!--Table for Current Users-->
-                        <div class="" style="background:transparent; color: #000; height:auto; width:100%;">
+                        <div class="adminBalanceScan">
                             <table id="userBalances" class="table">
                                 <thead>
                                     <tr>
