@@ -88,7 +88,7 @@ class WPVW_Admin_Options {
 							</div>
 	            
 	            <p class="submit">
-	                <!--<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />-->
+	                <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 	            </p>
 	        </form>
 
@@ -136,9 +136,41 @@ class WPVW_Admin_Options {
 								<?php submit_button("Update User's Virtual Wallet"); ?>
 							</form>
 						</div>
+                
+                        <!--Table for Current Users-->
+                        <div class="" style="background:transparent; color: #000; height:auto; width:100%;">
+                            <table id="userBalances" class="table">
+                                <thead>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>User Name</td> 
+                                        <td>Credit Balance</td>
+                                    </tr>
+                                </thead>
 
-					</div>
+                                <tfoot>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>User Name</td> 
+                                        <td>Credit Balance</td>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
 
+                                    <?php
+                                        $users = get_users();
+                                        foreach ( $users as $user ) {                        
+                                            echo '<tr>
+                                                    <td>'.$user->ID.'</td>
+                                                    <td>' . esc_html( $user->user_login ) . '</td> 
+                                                    <td>'.wc_price(get_user_meta($user->ID,'_uw_balance', true)).'</td>
+                                                  </tr>';
+                                        }
+                                    ?>
+
+                                </tbody>
+                            </table>
+					   </div>
 	    </div>
 	    <?php
 	}
