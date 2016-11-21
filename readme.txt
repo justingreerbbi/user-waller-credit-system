@@ -95,9 +95,21 @@ No. Use Wallet can not be used with any other payment method at the same time du
 = 1.2 =
 * Fixed issue where all orders go into "Complete" status, even if the product was not a currency package or virtual wallet was used as a payment method.
 
+<<<<<<< HEAD
 = 1.1 =
 * Fixed infinite credit bug reported by dvolkering
 * Updated version and confirmed working on 4.1
 
 = 1.0 =
 * Initial Release
+=======
+= 1.3 =
+* Tested with latest version of WC and WP.
+* Fixed undefined error if debug was set to true in wp-config.php
+
+= 1.3.1 =
+* User contributed user table
+* Modified script calling
+* Add filters uw_wallet_email_footer and uw_wallet_email_subject
+* Added user notification functionality
+>>>>>>> master
