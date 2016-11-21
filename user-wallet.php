@@ -18,14 +18,14 @@
  *
  * @author  Justin Greer <justin@justin-greer.com>
  * @package User Wallet
-*/
-if ( ! function_exists( 'add_filter' ) ){
+ */
+if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-if ( ! defined( 'WPUW_FILE' ) ){
+if ( ! defined( 'WPUW_FILE' ) ) {
 	define( 'WPUW_FILE', __FILE__ );
 }
 

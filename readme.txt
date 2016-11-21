@@ -96,3 +96,9 @@ No. Use Wallet can not be used with any other payment method at the same time du
 = 1.3 =
 * Tested with latest version of WC and WP.
 * Fixed undefined error if debug was set to true in wp-config.php
+
+= 1.3.1 =
+* User contributed user table
+* Modified script calling
+* Add filters uw_wallet_email_footer and uw_wallet_email_subject
+* Added user notification functionality
