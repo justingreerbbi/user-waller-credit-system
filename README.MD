@@ -1,20 +1,19 @@
 # User Wallet Credit System
 
-Contributors: justingreerbbi
-Donate link: http://justin-greer.com/#donate
-Tags: woocommerce, wallet, woocommerce credits, user wallet
-Requires at least: 4.0
-Tested up to: 4.1
-Stable tag: 1.2
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+* Contributors: justingreerbbi
+* Donate link: http://justin-greer.com/#donate
+* Tags: woocommerce, wallet, woocommerce credits, user wallet
+* Requires at least: 4.0
+* Tested up to: 4.1
+* Stable tag: 1.2
+* License: GPLv2 or later
+* License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Gives users the ability to load their virtual wallet balance using WooCommerce checkout.
 
 ## Description
 
-User Wallet Credit System for Woocommerce provides each user of your WordPress website with their very own personal
-wallet. Users can load and there wallet with virtual money paid for using real money. The plugin provides a way to purchase items from your store while using their virtual money.
+User Wallet Credit System for Woocommerce provides each user of your WordPress website with their very own personal wallet. Users can load and there wallet with virtual money paid for using real money. The plugin provides a way to purchase items from your store while using their virtual money.
 
 The plugin is still in its infant age and developers are welcome to extend.
 
@@ -46,7 +45,6 @@ Show Current User Wallet Balance:
 * separator = (:|-) The character separating the username and wallet balance.
 * username_type = (display_name|first_name|last_name|full_name)
 
-
 Display a table containing the bundles (credit product) and "Buy Now" buttons:
 
 `
@@ -55,7 +53,7 @@ Display a table containing the bundles (credit product) and "Buy Now" buttons:
 
 ## Things to Note
 
-The plugins uses user meta fields to keep track of wallet balances. (_uw_balance).. Beware if you plan to 				change this. You could wipe everyones wallet balances out.
+The plugins uses user meta fields to keep track of wallet balances. (_uw_balance).. Beware if you plan to change this. You could wipe everyones wallet balances out.
 
 
 ## Installation
@@ -77,19 +75,18 @@ This section describes how to install the plugin and get it working.
 
 ## Screenshots
 
-
 1. Simple Wallet Display
 2. List Bundles
 3. Pay with Virtual Wallet
 
 ## Changelog
 
-### 1.0
-* Initial Release
+### 1.2
+* Fixed issue where all orders go into "Complete" status, even if the product was not a currency package or virtual wallet was used as a payment method.
 
 ### 1.1
 * Fixed infinite credit bug reported by dvolkering
 * Updated version and confirmed working on 4.1
 
-### 1.2
-* Fixed issue where all orders go into "Complete" status, even if the product was not a currency package or virtual wallet was used as a payment method.
+### 1.0
+* Initial Release.
