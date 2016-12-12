@@ -75,8 +75,8 @@ This section describes how to install the plugin and get it working.
 
 ## Screenshots
 1. Simple Wallet Display:![alt text](/docs/images/1-user-wallet.jpg?raw=true "Simple Wallet Display")
-2. List Bundles
-3. Pay with Virtual Wallet:![alt text](/docs/images/1-user-wallet.jpg?raw=true "Pay with Virtual Wallet")
+2. Admin Adjust wallet credits:![alt text](/docs/images/adjust-wallet.jpg?raw=true "Simple Wallet Display")
+3. Pay with Virtual Wallet:![alt text](/docs/images/pay-with-wallet.jpg?raw=true "Pay with Virtual Wallet")
 
 ## Changelog
 
