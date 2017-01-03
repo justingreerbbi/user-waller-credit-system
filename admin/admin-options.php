@@ -160,15 +160,6 @@ class WPVW_Admin_Options {
 				<!-- ADVANCED CONFIGURATION -->
 				<div id="configuration">
 					<h2>Configuration</h2>
-
-					<table class="form-table">
-						<tr valign="top">
-							<th scope="row">Show balance on checkout option</th>
-							<td>
-								<input name="show_balance_on_checkout_option" type="checkbox"/>
-							</td>
-						</tr>
-					</table>
 				</div>
 
 			</div>
