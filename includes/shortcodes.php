@@ -73,31 +73,49 @@ function wpuw_list_products_shortcode() {
 	if ( ! is_user_logged_in() ) {
 		return false;
 	}
-
+	
 	$args = array(
 		'post_type'      => 'product',
 		'posts_per_page' => get_option( 'post_per_page', 10 ),
 		'product_cat'    => 'credit'
 	);
-	print '<table>';
+	$output = '<table>';
 	$loop = new WP_Query( $args );
-	while ( $loop->have_posts() ) : $loop->the_post();
-		global $product; ?>
+	while ( $loop->have_posts() ) :
+		$loop->the_post();
+		global $product;
+		$output .= '<tr>';
+		$output .= '<td>' . the_title('','',false) . '</td>';
+		$output .= '<td>';
+		// Start form
+		$output .= '<form id="add_to_cart_' . get_the_ID() . '" method="post">';
+		$output .= '<input type="hidden" nae="add-to-cart" value="' . get_the_ID() . '"/>';
+		$output .= '<input type="hidden" name="wpuw_add_product" value="1"/>';
+		$output .= '</form>';
+		// End Form
+		// Start "Make Deposit Button"
+		$script = "javascript:document.getElementById('add_to_cart_" . get_the_ID() . "').submit();";
+		$output .= '<button class="uw-make-deposit" onclick="'.$script.'">Make Deposit</button>';
+		// End "Make Deposit Button"
+		$output .= '</td>';
+		$output .= '</tr>';
+		/*
 		<tr>
 			<td><?php the_title(); ?> </td>
 			<td>
-				<form id="add_to_cart_<?php echo get_the_ID(); ?>" method="post"><input type="hidden" name="add-to-cart"
-				                                                                        value="<?php echo get_the_ID(); ?>"/><input
-						type="hidden" name="wpuw_add_product" value="1"/></form>
+				<form id="add_to_cart_<?php echo get_the_ID(); ?>" method="post">
+				    <input type="hidden" name="add-to-cart" value="<?php echo get_the_ID(); ?>"/>
+				    <input type="hidden" name="wpuw_add_product" value="1"/>
+				</form>
 				<button class="uw-make-deposit"
 				        onclick="javascript:document.getElementById('add_to_cart_<?php echo get_the_ID(); ?>').submit();">
 					Make Deposit
 				</button>
 			</td>
 		</tr>
-
-	<?php endwhile;
+		*/
+	endwhile;
 	wp_reset_query();
-
-	print '</table>';
+	$output .= '</table>';
+	return $output;
 }

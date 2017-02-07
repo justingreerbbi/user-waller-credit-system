@@ -85,7 +85,7 @@ class WPVW_Admin_Options {
 						<tr valign="top">
 							<th scope="row">Show balance on checkout option</th>
 							<td>
-								<input name="show_balance_on_checkout_option" type="checkbox"/>
+								<input name="show_balance_on_checkout_option" type="checkbox"  <?php if($options['enabled']) echo 'checked'; ?>/>
 							</td>
 						</tr>
 					</table>
