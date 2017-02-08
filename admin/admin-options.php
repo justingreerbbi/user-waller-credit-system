@@ -75,20 +75,91 @@ class WPVW_Admin_Options {
 							</td>
 						</tr>
 					</table>
+					<!-- ADD NEW CLIENT HIDDEN FROM -->
+                    <div id="adjust-credits-single-user" style="display:none;">
+                        <div class="wo-popup-inner">
+                            <h3 class="header">Adjust Wallet Balances</h3>
+                            <form id="adjust-users-virtual-wallet" action="/" method="get">
+                                <p>
+                                    <label>Select A User: </label>
+                                    <select id="onchange-get-balance" name="user">
+                                        <?php
+                                        $users = get_users();
+                                        foreach ( $users as $user ) {
+                                            echo '<option value="' . $user->ID . '">' . esc_html( $user->user_login ) . ' - (' . wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ) . ')</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    <span class="selected-user-balance"></span>
+                                </p>
+
+                                <p>
+                                    <label>Action: </label>
+                                    <select name="adjustment_type">
+                                        <option value="add">Add</option>
+                                        <option value="subtract">Subtract</option>
+                                        <option value="update">Update</option>
+                                    </select>
+                                </p>
+
+                                <p>
+                                    <label>Credit Amount: </label>
+                                    <input type="text" name="credit_amount" placeholder="Enter Adjustment"/>
+                                </p>
+
+                                <p>
+                                    <label>Notify the User: </label>
+                                    <input type="checkbox" name="notify_user" value="1"/>
+                                </p>
+
+                                <p>
+                                    <textarea name="admin_note" placeholder="Message to user (if applicable)"></textarea>
+                                </p>
+
+                                <?php submit_button( "Update User's Virtual Wallet" ); ?>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--Table for Current Users-->
+                    <div class="adminBalanceScan">
+                        <table id="userBalances" class="table">
+                            <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>User Name</td>
+                                <td>Credit Balance</td>
+                            </tr>
+                            </thead>
+
+                            <tfoot>
+                            <tr>
+                                <td>ID</td>
+                                <td>User Name</td>
+                                <td>Credit Balance</td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            <?php
+                            $users = get_users();
+                            foreach ( $users as $user ) {
+                                echo '<tr>
+                                                <td>' . $user->ID . '</td>
+                                                <td>' . esc_html( $user->user_login ) . '</td> 
+                                                <td>' . wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ) . '</td>
+                                              </tr>';
+                            }
+                            ?>
+
+                            </tbody>
+                        </table>
+                    </div>
 				</div>
 
 				<!-- ADVANCED CONFIGURATION -->
 				<div id="configuration">
 					<h2>Configuration</h2>
-
-					<table class="form-table">
-						<tr valign="top">
-							<th scope="row">Show balance on checkout option</th>
-							<td>
-								<input name="show_balance_on_checkout_option" type="checkbox"/>
-							</td>
-						</tr>
-					</table>
 				</div>
 
 			</div>
@@ -98,86 +169,6 @@ class WPVW_Admin_Options {
 			</p>
 		</form>
 
-		<!-- ADD NEW CLIENT HIDDEN FROM -->
-		<div id="adjust-credits-single-user" style="display:none;">
-			<div class="wo-popup-inner">
-				<h3 class="header">Adjust Wallet Balances</h3>
-				<form id="adjust-users-virtual-wallet" action="/" method="get">
-					<p>
-						<label>Select A User: </label>
-						<select id="onchange-get-balance" name="user">
-							<?php
-							$users = get_users();
-							foreach ( $users as $user ) {
-								echo '<option value="' . $user->ID . '">' . esc_html( $user->user_login ) . ' - (' . wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ) . ')</option>';
-							}
-							?>
-						</select>
-						<span class="selected-user-balance"></span>
-					</p>
-
-					<p>
-						<label>Action: </label>
-						<select name="adjustment_type">
-							<option value="add">Add</option>
-							<option value="subtract">Subtract</option>
-							<option value="update">Update</option>
-						</select>
-					</p>
-
-					<p>
-						<label>Credit Amount: </label>
-						<input type="text" name="credit_amount" placeholder="Enter Adjustment"/>
-					</p>
-
-					<p>
-						<label>Notify the User: </label>
-						<input type="checkbox" name="notify_user" value="1"/>
-					</p>
-
-					<p>
-						<textarea name="admin_note" placeholder="Message to user (if applicable)"></textarea>
-					</p>
-
-					<?php submit_button( "Update User's Virtual Wallet" ); ?>
-				</form>
-			</div>
-		</div>
-
-		<!--Table for Current Users-->
-		<div class="adminBalanceScan">
-			<table id="userBalances" class="table">
-				<thead>
-				<tr>
-					<td>ID</td>
-					<td>User Name</td>
-					<td>Credit Balance</td>
-				</tr>
-				</thead>
-
-				<tfoot>
-				<tr>
-					<td>ID</td>
-					<td>User Name</td>
-					<td>Credit Balance</td>
-				</tr>
-				</tfoot>
-				<tbody>
-
-				<?php
-				$users = get_users();
-				foreach ( $users as $user ) {
-					echo '<tr>
-                                    <td>' . $user->ID . '</td>
-                                    <td>' . esc_html( $user->user_login ) . '</td> 
-                                    <td>' . wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ) . '</td>
-                                  </tr>';
-				}
-				?>
-
-				</tbody>
-			</table>
-		</div>
 		<?php
 	}
 

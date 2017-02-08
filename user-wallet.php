@@ -7,6 +7,8 @@
  * Author: Justin Greer
  * Author URI: http://justin-greer.com
  * License: GPL2
+ * Requires at least: 4.0
+ * Tested up to: 4.7
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
