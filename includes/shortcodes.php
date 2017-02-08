@@ -89,7 +89,7 @@ function wpuw_list_products_shortcode() {
 		$output .= '<td>';
 		// Start form
 		$output .= '<form id="add_to_cart_' . get_the_ID() . '" method="post">';
-		$output .= '<input type="hidden" nae="add-to-cart" value="' . get_the_ID() . '"/>';
+		$output .= '<input type="hidden" name="add-to-cart" value="' . get_the_ID() . '"/>';
 		$output .= '<input type="hidden" name="wpuw_add_product" value="1"/>';
 		$output .= '</form>';
 		// End Form
