@@ -1,6 +1,6 @@
 # User Wallet Credit System
 
-* Contributors: justingreerbbi
+* Contributors: justingreerbbi, laurencebahiirwa
 * Donate link: http://justin-greer.com/#donate
 * Tags: woocommerce, wallet, woocommerce credits, user wallet
 * Requires at least: 4.0
