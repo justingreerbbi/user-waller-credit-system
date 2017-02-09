@@ -35,6 +35,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ):
 			/** load the settings */
 			$this->init_form_fields();
 			$this->init_settings();
+			
+			/** Support automated refunds. Needs to be atleast woocommerce v2.2 */
+            		$this->supports     = array( 'refunds' );
 
 			/** get the settings */
 			$this->title              = $this->get_option( 'title' );
