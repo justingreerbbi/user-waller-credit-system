@@ -1,6 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+<?php
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 class WPVW_Ajax {
 
@@ -24,6 +23,11 @@ class WPVW_Ajax {
 	 * Get a refreshed cart fragment - OMG 3 hours later!!!
 	 */
 	public static function adjust_user_wallet() {
+
+		// Only Managers can do this
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
+		}
 		parse_str( $_POST['data'], $params );
 		extract( $params );
 
@@ -47,35 +51,37 @@ class WPVW_Ajax {
 		/** updaet the users wallet */
 		update_user_meta( $user, '_uw_balance', $new_balance );
 
+		// Send a notification to the user
+		if ( isset( $params['notify_user'] ) && $params['notify_user'] == '1' ) {
+
+			$admin_note = '';
+			if ( strlen( $params['admin_note'] ) > 0 ) {
+				$admin_note = ' <p> <b>Admin Note:</b> </br></br>' . nl2br( $params['admin_note'] ) . '</p>';
+			}
+
+			$email_content = 'Hey There,</br>
+				<p>Your wallet amount at ' . site_url() . ' has been adjusted.</p>
+				
+				' . $admin_note;
+
+			add_filter( 'wp_mail_content_type', function () {
+				return 'text/html';
+			} );
+
+			$user_data = get_user_by( 'id', $params['user'] );
+
+			wp_mail( $user_data->user_email, 'Your Account Has Been Updated', $email_content );
+
+		}
+
 		$return = array(
 			'status'        => true,
 			'credit_amount' => $credit_amount,
 			'new_balance'   => wc_price( $new_balance ),
-			'message'       => "Users blance has been updated to: " . $new_balance
+			'message'       => "User funds have been updated"
 		);
 
-		// Send notification to user
-		if ( isset( $notify_user ) ) {
-			$user_email = get_user_by( 'ID', $user );
-
-			$to      = $user_email->user_email;
-			$subject = apply_filters( 'uw_wallet_email_subject', 'Your wallet has been updated' );
-			$message = 'This email is to inform you that your account has been updated at: ' . get_bloginfo( 'name' ) . ' (' . home_url() . ')';
-
-			$footer = apply_filters( 'uw_wallet_email_footer', '' . get_bloginfo( 'name' ) . ' (' . home_url() . ')' );
-
-			if ( strlen( $admin_note ) > 0 ) {
-				$message = $admin_note . "
-				
-				$footer
-				";
-			}
-
-			wp_mail( $to, $subject, $message );
-		}
-
 		print json_encode( $return );
-
 		exit;
 	}
 

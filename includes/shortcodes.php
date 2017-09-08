@@ -27,7 +27,7 @@ function wpuw_wallet_balance_shortcode( $atts ) {
 
 	/** deturmine whether to show the username or not */
 	if ( $display_username === 'true' ) {
-		$output = '<div class="user-credit"><strong>';
+		$output = '<strong>';
 
 		/** which type of user name to display */
 		switch ( $username_type ) {
@@ -49,7 +49,6 @@ function wpuw_wallet_balance_shortcode( $atts ) {
 
 		$output .= '</strong>';
 
-		/** add separator */
 		if ( ! empty( $separator ) ) {
 			$output .= $separator . ' ';
 		}
@@ -57,14 +56,13 @@ function wpuw_wallet_balance_shortcode( $atts ) {
 
 	$hasBalance = get_user_meta( get_current_user_id(), '_uw_balance', true );
 	if ( ! empty( $hasBalance ) ) {
-		// Customzed to wrap wc_price with an extra class
-		$output .= "<div class='has-balance'> " . wc_price( $hasBalance ) . "</div></div>";
+		$output .= wc_price( $hasBalance );
 	} else {
 		update_user_meta( get_current_user_id(), "_uw_balance", "0.00" );
-		$output .= "<div class='no-balance'> " . wc_price( get_user_meta( get_current_user_id(), '_uw_balance', true ) ) . "</div></div>";
+		$output .= wc_price( get_user_meta( get_current_user_id(), '_uw_balance', true ) );
 	}
 
-	return $output;
+	echo $output;
 }
 
 add_shortcode( 'uw_product_table', 'wpuw_list_products_shortcode' );

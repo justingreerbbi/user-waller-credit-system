@@ -20,14 +20,13 @@
         jQuery.post(ajaxurl, data, function (response) {
             var res = jQuery.parseJSON(response);
             if (res.status) {
-                //alert(res.credit_amount);
-                alert(res.message);
-                $('#adjust-users-virtual-wallet').children('#submit').show();
-                tb_remove();
+                $('#credit_amount_inout').val('');
+                $('span.user_funds').html(res.new_balance);
+                $('.uw_notice').show();
+                $('.uw_notice .notice-content').html(res.message);
             }
             else {
                 alert(res.message);
-                $('#adjust-users-virtual-wallet').children('#submit').show();
             }
 
         });

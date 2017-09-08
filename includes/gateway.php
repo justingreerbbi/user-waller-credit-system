@@ -240,10 +240,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ):
 				return;
 			}
 
-			/** If the user wants mark the order complete */
-			//$options = get_option("vw_options");
-			//if(isset($options['auto_complete_status']) && $options['auto_complete_status']=1)
-			$order->update_status( 'completed', __( 'Payment completed use Virtual Wallet', 'woocommerce' ) );
+			$update_status = apply_filters( 'wpuw_update_status', 'completed' );
+			$order->update_status( $update_status, __( 'Payment marked ' . $update_status . ' using Virtual Wallet', 'woocommerce' ) );
 
 			/** reduce stock levels */
 			$order->reduce_order_stock();

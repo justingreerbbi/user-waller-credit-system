@@ -1,6 +1,15 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Admin Options
+ *
+ * @author Justin Greer <justin@justin-greer.com>
+ * @package User Wallet Credit System
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+require_once( dirname( __FILE__ ) . '/functions.php' );
 
 class WPVW_Admin_Options {
 
@@ -26,9 +35,9 @@ class WPVW_Admin_Options {
 
 	/** add the plugin option page to the admin menu */
 	public function add_page() {
-		add_submenu_page( 'woocommerce', 'User Wallet Options', 'User Wallet', 'manage_woocommerce', 'wpvw_settings', array(
+		add_submenu_page( null, 'User Wallet Options', 'Edit User\'s Wallet', 'manage_woocommerce', 'wpvw_edit_wallet', array(
 			$this,
-			'options_do_page'
+			'wpvw_edit_wallet_function'
 		) );
 	}
 
@@ -36,139 +45,71 @@ class WPVW_Admin_Options {
 	public function admin_head() {
 		wp_enqueue_style( 'wpvw_admin' );
 		wp_enqueue_script( 'wpvw_admin' );
+		wp_enqueue_script( 'jquery-ui-tabs' );
 	}
 
 	/**
 	 * [options_do_page description]
 	 * @return [type] [description]
 	 */
-	public function options_do_page() {
-		$options = get_option( $this->option_name );
+	public function wpvw_edit_wallet_function() {
 		$this->admin_head();
-		add_thickbox();
+
+		if ( ! isset( $_REQUEST['ID'] ) ) {
+			exit( 'Invalid User' );
+		}
+
+		$user = get_userdata( intval( $_REQUEST['ID'] ) );
+		if ( ! $user ) {
+			exit( 'Invalid User' );
+		}
 		?>
-		<div class="wrap">
-		<!--<div class="updated">
-			<p>This version of Virtual Wallet is licensed to EJ for use and modification but not distribution.</p>
-		</div>-->
-		<h2>User Wallet</h2>
-		<p>A Woocommerce Extension for allowing users to load and use virtual balance for products.</p>
+        <div class="wrap">
 
-		<form method="post" action="options.php">
-			<?php settings_fields( 'wpvw_options' ); ?>
+            <div class="uw_notice notice notice-success is-dismissible">
+                <p class="notice-content">User funds have been updated</p>
+            </div>
 
-			<div id="wo_tabs">
-				<ul>
-					<li><a href="#dashboard">Dashboard</a></li>
-					<li><a href="#configuration">Configuration</a></li>
-				</ul>
+            <h2>Edit User Wallet</h2>
+            <h3>User: <span style="color: #21759b;"><?php echo $user->user_email; ?> </span></h3>
+            <h3>Current Funds: <span class="user_funds" style="color: #21759b;">
+                    <?php echo wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ); ?>
+                </span></h3>
+            <p>
+                Use the form below to adjust the users funds.
+            </p>
 
-				<!-- GENERAL SETTINGS -->
-				<div id="dashboard">
-					<table class="form-table">
-						<tr valign="top">
-							<th scope="row">Adjust User Wallets:</th>
-							<td>
-								<a class="thickbox button button-primary"
-								   href="#TB_inline?width=600&height=550&inlineId=adjust-credits-single-user"
-								   title="Adjust User's Virtual Wallet Balance">Select a User</a>
-							</td>
-						</tr>
-					</table>
-					<!-- ADD NEW CLIENT HIDDEN FROM -->
-                    <div id="adjust-credits-single-user" style="display:none;">
-                        <div class="wo-popup-inner">
-                            <h3 class="header">Adjust Wallet Balances</h3>
-                            <form id="adjust-users-virtual-wallet" action="/" method="get">
-                                <p>
-                                    <label>Select A User: </label>
-                                    <select id="onchange-get-balance" name="user">
-                                        <?php
-                                        $users = get_users();
-                                        foreach ( $users as $user ) {
-                                            echo '<option value="' . $user->ID . '">' . esc_html( $user->user_login ) . ' - (' . wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ) . ')</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                    <span class="selected-user-balance"></span>
-                                </p>
+            <form id="adjust-users-virtual-wallet" action="/" method="get">
+                <input type="hidden" name="user" value="<?php echo $user->ID; ?>"/>
+				<?php wp_nonce_field( 'update_user_wallet', 'update_user_wallet_' . $user->ID ); ?>
 
-                                <p>
-                                    <label>Action: </label>
-                                    <select name="adjustment_type">
-                                        <option value="add">Add</option>
-                                        <option value="subtract">Subtract</option>
-                                        <option value="update">Update</option>
-                                    </select>
-                                </p>
+                <p>
+                    <label>Action: </label>
+                    <select name="adjustment_type">
+                        <option value="add">Add</option>
+                        <option value="subtract">Subtract</option>
+                        <option value="update">Update</option>
+                    </select>
+                </p>
 
-                                <p>
-                                    <label>Credit Amount: </label>
-                                    <input type="text" name="credit_amount" placeholder="Enter Adjustment"/>
-                                </p>
+                <p>
+                    <label>Credit Amount: </label>
+                    <input type="text" id="credit_amount_inout" name="credit_amount" placeholder="Enter Adjustment"/>
+                </p>
 
-                                <p>
-                                    <label>Notify the User: </label>
-                                    <input type="checkbox" name="notify_user" value="1"/>
-                                </p>
+                <p>
+                    <label>Notify the User: </label>
+                    <input type="checkbox" name="notify_user" value="1"/>
+                </p>
 
-                                <p>
-                                    <textarea name="admin_note" placeholder="Message to user (if applicable)"></textarea>
-                                </p>
+                <p>
+                    <textarea name="admin_note" placeholder="Message to user (if applicable)"></textarea>
+                </p>
 
-                                <?php submit_button( "Update User's Virtual Wallet" ); ?>
-                            </form>
-                        </div>
-                    </div>
+				<?php submit_button( "Update User's Funds" ); ?>
+            </form>
 
-                    <!--Table for Current Users-->
-                    <div class="adminBalanceScan">
-                        <table id="userBalances" class="table">
-                            <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>User Name</td>
-                                <td>Credit Balance</td>
-                            </tr>
-                            </thead>
-
-                            <tfoot>
-                            <tr>
-                                <td>ID</td>
-                                <td>User Name</td>
-                                <td>Credit Balance</td>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-
-                            <?php
-                            $users = get_users();
-                            foreach ( $users as $user ) {
-                                echo '<tr>
-                                                <td>' . $user->ID . '</td>
-                                                <td>' . esc_html( $user->user_login ) . '</td> 
-                                                <td>' . wc_price( get_user_meta( $user->ID, '_uw_balance', true ) ) . '</td>
-                                              </tr>';
-                            }
-                            ?>
-
-                            </tbody>
-                        </table>
-                    </div>
-				</div>
-
-				<!-- ADVANCED CONFIGURATION -->
-				<div id="configuration">
-					<h2>Configuration</h2>
-				</div>
-
-			</div>
-
-			<p class="submit">
-				<input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ) ?>"/>
-			</p>
-		</form>
-
+        </div>
 		<?php
 	}
 
@@ -179,7 +120,10 @@ class WPVW_Admin_Options {
 	 *
 	 * @return [type]        [description]
 	 */
-	public function validate( $input ) {
+	public
+	function validate(
+		$input
+	) {
 		$input["enabled"] = isset( $input["enabled"] ) ? $input["enabled"] : 0;
 
 		return $input;

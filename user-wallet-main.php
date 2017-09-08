@@ -1,10 +1,11 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+<?php
+
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 class WPUW {
+
 	/** @var string current plugin version */
-	public static $version = '1.2';
+	public static $version = '2.0';
 
 	/** @var object container instance for plugin */
 	public static $_instance = null;
@@ -13,7 +14,7 @@ class WPUW {
 	public $notices = array();
 
 	/** @var array plugin default settings */
-	protected $defualt_settings = array(
+	public $defualt_settings = array(
 		'enabled'              => true,
 		'auto_complete_status' => true
 	);
@@ -107,7 +108,7 @@ class WPUW {
 
 	/** register dependant scripts */
 	public function register_scripts() {
-		wp_register_script( 'wpvw_admin', plugins_url( '/assets/js/admin.js', __FILE__ ), array( 'jquery-ui-tabs' ) );
+		wp_register_script( 'wpvw_admin', plugins_url( '/assets/js/admin.js', __FILE__ ) );
 	}
 
 	/** register terms needed for plugin */
@@ -144,9 +145,9 @@ class WPUW {
 	public function admin_notice() {
 		if ( count( $this->notices ) > 0 ): foreach ( $this->notices as $message ):
 			?>
-			<div class="updated">
-				<p><?php _e( $message, 'my-text-domain' ); ?></p>
-			</div>
+            <div class="updated">
+                <p><?php _e( $message, 'my-text-domain' ); ?></p>
+            </div>
 			<?php
 		endforeach; endif;
 	}

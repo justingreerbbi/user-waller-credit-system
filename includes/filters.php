@@ -1,7 +1,11 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
+<?php
+/**
+ * Main Filters
+ *
+ * @author Justin Greer <justin@justin-greer.com
+ * @package User Wallet Credit System
+ */
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 add_filter( "wpuw_Errors", "wpuw_error_filter", 1 );
 function wpuw_error_filter( $errors ) {
@@ -18,7 +22,7 @@ function wpuw_error_filter( $errors ) {
 
 /**
  * Functionality to redirect the user to the checkout page ONLY making a deposit.
- * Since credits should only be addeded using the shortcode the follwing redirect should
+ * Since credits should only be added using the shortcode the following redirect should
  * work just fine.
  *
  * @todo Possibly give the user the ability to change the logic of how this works
@@ -54,8 +58,8 @@ function wpuw_clear_cart_items( $cart_item_data ) {
  * any ther products in the store
  *
  * @todo Right now this feature is static meaning it an not be changed without changing this code.
- * I need to add the functionlity to give the user and option to defined custom text in wp-admin.
- * OR this could be a filter setting as well for extendability options for developers.
+ * I need to add the functionlity to give the user and option to defined cutom text in wp-admin.
+ * OR this could be a filter setting as well for extendabilty options for developers.
  */
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_custom_cart_button_text' );
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
@@ -71,7 +75,7 @@ function woo_custom_cart_button_text() {
 
 /**
  * Excludes Credit Products from the store listing. This keeps the items seperate
- * and does not confuse the customer as well as limiting the headache on the logic in the backend.
+ * and does not confuse the customer as wel as limiting the headace on the logic in the backend.
  *
  * @link(WooCodex, http://docs.woothemes.com/document/exclude-a-category-from-the-shop-page/)
  */
@@ -94,5 +98,6 @@ function custom_pre_get_posts_query_for_credit( $q ) {
 			)
 		) );
 	}
+
 	remove_action( 'pre_get_posts', 'custom_pre_get_posts_query_for_credit' );
 }
